@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class GameMessage extends StatelessWidget {
   String message;
-  GameMessage({required this.message, super.key});
+  GameMessage(this.message, {super.key});
 
   @override
   Widget build(BuildContext context) {
