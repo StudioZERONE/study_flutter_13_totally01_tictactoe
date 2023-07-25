@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:study_flutter_13_totally01_tictactoe/game_status.dart';
 
 class GameBoard extends StatefulWidget {
   const GameBoard({super.key});
@@ -9,11 +10,18 @@ class GameBoard extends StatefulWidget {
 
 class _GameBoardState extends State<GameBoard> {
   late List<List<String>> board;
+  final bool _playerOneTurn = false;
+  final GameStatus _gameStatus = GameStatus.start;
 
   @override
   void initState() {
     super.initState();
     boardInit();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   void boardInit() {
@@ -40,6 +48,7 @@ class _GameBoardState extends State<GameBoard> {
           ),
           child: Stack(
             children: [
+              playerDisplayContainer(_playerOneTurn),
               gameGridBoard(),
             ],
           ),
@@ -81,5 +90,9 @@ class _GameBoardState extends State<GameBoard> {
         ),
       ),
     );
+  }
+
+  Widget playerDisplayContainer(bool isPlayerOneTurn) {
+    return Container();
   }
 }
