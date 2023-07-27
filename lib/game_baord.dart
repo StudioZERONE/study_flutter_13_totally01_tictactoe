@@ -39,6 +39,44 @@ class _GameBoardState extends State<GameBoard> {
         3, (index) => List.generate(3, (i) => "", growable: false));
   }
 
+  void gameCheck() {
+    int boardCount = 0;
+
+    // 대각선 체크
+    if ((board[0][0] == "O" && board[1][1] == "O" && board[2][2] == "O") ||
+        (board[0][2] == "O" && board[1][1] == "O" && board[2][0] == "O")) {
+      _gameStatus = GameStatus.playerOneWin;
+    } else if ((board[0][0] == "X" &&
+            board[1][1] == "X" &&
+            board[2][2] == "X") ||
+        (board[0][2] == "X" && board[1][1] == "X" && board[2][0] == "X")) {
+      _gameStatus = GameStatus.playerTwoWin;
+    }
+
+    // 가로세로 체크
+    for (var i = 0; i < 3; i++) {
+      if ((board[i][0] == "O" && board[i][1] == "O" && board[i][2] == "O") ||
+          (board[0][i] == "O" && board[1][i] == "O" && board[2][i] == "O")) {
+        _gameStatus = GameStatus.playerOneWin;
+      } else if ((board[i][0] == "X" &&
+              board[i][1] == "X" &&
+              board[i][2] == "X") ||
+          (board[0][i] == "X" && board[1][i] == "X" && board[2][i] == "X")) {
+        _gameStatus = GameStatus.playerTwoWin;
+      }
+      for (var j = 0; j < 3; j++) {
+        if (board[i][j] != "") boardCount++;
+      }
+    }
+
+    // 무승부 체크
+    if (boardCount >= 9 &&
+        _gameStatus != GameStatus.playerOneWin &&
+        _gameStatus != GameStatus.playerTwoWin) {
+      _gameStatus = GameStatus.draw;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,13 +136,14 @@ class _GameBoardState extends State<GameBoard> {
   Widget boardBox(int x, int y, {String mark = ""}) {
     return GestureDetector(
       onTap: () {
-        print("x: $x / y: $y");
+        //print("x: $x / y: $y");
         if (board[x - 1][y - 1] == "") {
           setState(() {
             _playerOneTurn
                 ? board[x - 1][y - 1] = "O"
                 : board[x - 1][y - 1] = "X";
           });
+          gameCheck();
           _playerOneTurn = !_playerOneTurn;
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
