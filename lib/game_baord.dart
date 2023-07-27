@@ -99,6 +99,17 @@ class _GameBoardState extends State<GameBoard> {
     return GestureDetector(
       onTap: () {
         print("x: $x / y: $y");
+        if (board[x - 1][y - 1] == "") {
+          setState(() {
+            _playerOneTurn
+                ? board[x - 1][y - 1] = "O"
+                : board[x - 1][y - 1] = "X";
+          });
+          _playerOneTurn = !_playerOneTurn;
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("비어 있는 곳만 표시 가능합니다.")));
+        }
       },
       child: Container(
         margin: const EdgeInsets.all(8),
